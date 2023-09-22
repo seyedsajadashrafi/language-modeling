@@ -5,15 +5,15 @@ import wandb
 
 pretrained = False
 
-batch_size = 128
+batch_size = 20
 
-seq_len = 30
+seq_len = 70
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 print(f'Device: {device}')
 
 glove_dim = 300
-vocab_dim = 300
+vocab_dim = 400
 embedding_dim = glove_dim if pretrained else vocab_dim
 
 hidden_dim = 1150  # vocab_dim if pretrained else 256
@@ -24,7 +24,7 @@ dropout_rate = 0.2
 
 tie_weights = False
 
-lr = 15
+lr = 30
 wd = 1.2e-6
 
 loss_train_hist, loss_valid_hist = [], []
@@ -34,7 +34,7 @@ num_epochs = 300
 
 scheduler = False
 
-load_pretrain_model = True
+load_pretrain_model = False
 model_name = 'model-ppl_120.7.pt'
 
 clipping = True
