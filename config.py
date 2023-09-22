@@ -24,7 +24,7 @@ dropout_rate = 0.2
 
 tie_weights = False
 
-lr = 0.5
+lr = 15
 wd = 1.2e-6
 
 loss_train_hist, loss_valid_hist = [], []
