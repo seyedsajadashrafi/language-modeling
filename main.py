@@ -2,8 +2,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-import datasets
-
 import torchtext
 from torchtext.data.utils import get_tokenizer
 import torchtext.data as data
