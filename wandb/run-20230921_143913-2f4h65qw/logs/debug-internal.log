@@ -1,0 +1,90 @@
+2023-09-21 14:39:13,188 INFO    StreamThr :6540 [internal.py:wandb_internal():90] W&B internal server running at pid: 6540, started at: 2023-09-21 14:39:13.188213
+2023-09-21 14:39:13,188 DEBUG   HandlerThread:6540 [handler.py:handle_request():141] handle_request: status
+2023-09-21 14:39:13,188 DEBUG   SenderThread:6540 [sender.py:send_request():316] send_request: status
+2023-09-21 14:39:13,188 INFO    WriterThread:6540 [datastore.py:open_for_write():75] open: D:\Howsam\Deep Catalyst\project 1 language modeling\code\howsam\wandb\run-20230921_143913-2f4h65qw\run-2f4h65qw.wandb
+2023-09-21 14:39:13,188 DEBUG   SenderThread:6540 [sender.py:send():302] send: header
+2023-09-21 14:39:13,188 DEBUG   SenderThread:6540 [sender.py:send():302] send: run
+2023-09-21 14:39:16,645 ERROR   SenderThread:6540 [retry.py:__call__():154] Retry attempt failed:
+Traceback (most recent call last):
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\urllib3\connectionpool.py", line 700, in urlopen
+    self._prepare_proxy(conn)
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\urllib3\connectionpool.py", line 996, in _prepare_proxy
+    conn.connect()
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\urllib3\connection.py", line 364, in connect
+    self.sock = conn = self._connect_tls_proxy(hostname, conn)
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\urllib3\connection.py", line 499, in _connect_tls_proxy
+    socket = ssl_wrap_socket(
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\urllib3\util\ssl_.py", line 453, in ssl_wrap_socket
+    ssl_sock = _ssl_wrap_socket_impl(sock, context, tls_in_tls)
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\urllib3\util\ssl_.py", line 495, in _ssl_wrap_socket_impl
+    return ssl_context.wrap_socket(sock)
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\ssl.py", line 500, in wrap_socket
+    return self.sslsocket_class._create(
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\ssl.py", line 1040, in _create
+    self.do_handshake()
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\ssl.py", line 1309, in do_handshake
+    self._sslobj.do_handshake()
+ssl.SSLEOFError: EOF occurred in violation of protocol (_ssl.c:1129)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\requests\adapters.py", line 440, in send
+    resp = conn.urlopen(
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\urllib3\connectionpool.py", line 787, in urlopen
+    retries = retries.increment(
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\urllib3\util\retry.py", line 592, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api.wandb.ai', port=443): Max retries exceeded with url: /graphql (Caused by SSLError(SSLEOFError(8, 'EOF occurred in violation of protocol (_ssl.c:1129)')))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\sdk\lib\retry.py", line 113, in __call__
+    result = self._call_fn(*args, **kwargs)
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\sdk\internal\internal_api.py", line 204, in execute
+    return self.client.execute(*args, **kwargs)  # type: ignore
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\vendor\gql-0.2.0\wandb_gql\client.py", line 52, in execute
+    result = self._get_result(document, *args, **kwargs)
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\vendor\gql-0.2.0\wandb_gql\client.py", line 60, in _get_result
+    return self.transport.execute(document, *args, **kwargs)
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\vendor\gql-0.2.0\wandb_gql\transport\requests.py", line 38, in execute
+    request = requests.post(self.url, **post_args)
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\requests\api.py", line 117, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\requests\api.py", line 61, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\requests\sessions.py", line 529, in request
+    resp = self.send(prep, **send_kwargs)
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\requests\sessions.py", line 645, in send
+    r = adapter.send(request, **kwargs)
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\requests\adapters.py", line 517, in send
+    raise SSLError(e, request=request)
+requests.exceptions.SSLError: HTTPSConnectionPool(host='api.wandb.ai', port=443): Max retries exceeded with url: /graphql (Caused by SSLError(SSLEOFError(8, 'EOF occurred in violation of protocol (_ssl.c:1129)')))
+2023-09-21 14:39:43,198 DEBUG   HandlerThread:6540 [handler.py:handle_request():141] handle_request: poll_exit
+2023-09-21 14:39:48,312 DEBUG   HandlerThread:6540 [handler.py:handle_request():141] handle_request: poll_exit
+2023-09-21 14:39:53,429 DEBUG   HandlerThread:6540 [handler.py:handle_request():141] handle_request: poll_exit
+2023-09-21 14:39:58,542 DEBUG   HandlerThread:6540 [handler.py:handle_request():141] handle_request: poll_exit
+2023-09-21 14:40:03,659 DEBUG   HandlerThread:6540 [handler.py:handle_request():141] handle_request: poll_exit
+2023-09-21 14:40:08,764 DEBUG   HandlerThread:6540 [handler.py:handle_request():141] handle_request: poll_exit
+2023-09-21 14:40:13,885 DEBUG   HandlerThread:6540 [handler.py:handle_request():141] handle_request: poll_exit
+2023-09-21 14:40:18,998 DEBUG   HandlerThread:6540 [handler.py:handle_request():141] handle_request: poll_exit
+2023-09-21 14:40:24,112 DEBUG   HandlerThread:6540 [handler.py:handle_request():141] handle_request: poll_exit
+2023-09-21 14:40:29,229 DEBUG   HandlerThread:6540 [handler.py:handle_request():141] handle_request: poll_exit
+2023-09-21 14:40:34,339 DEBUG   HandlerThread:6540 [handler.py:handle_request():141] handle_request: poll_exit
+2023-09-21 14:40:39,465 DEBUG   HandlerThread:6540 [handler.py:handle_request():141] handle_request: poll_exit
+2023-09-21 14:40:44,582 DEBUG   HandlerThread:6540 [handler.py:handle_request():141] handle_request: poll_exit
+2023-09-21 14:40:49,707 DEBUG   HandlerThread:6540 [handler.py:handle_request():141] handle_request: poll_exit
+2023-09-21 14:40:54,825 DEBUG   HandlerThread:6540 [handler.py:handle_request():141] handle_request: poll_exit
+2023-09-21 14:40:59,933 DEBUG   HandlerThread:6540 [handler.py:handle_request():141] handle_request: poll_exit
+2023-09-21 14:41:05,042 DEBUG   HandlerThread:6540 [handler.py:handle_request():141] handle_request: poll_exit
+2023-09-21 14:41:10,149 DEBUG   HandlerThread:6540 [handler.py:handle_request():141] handle_request: poll_exit
+2023-09-21 14:41:15,268 DEBUG   HandlerThread:6540 [handler.py:handle_request():141] handle_request: poll_exit
+2023-09-21 14:41:20,387 DEBUG   HandlerThread:6540 [handler.py:handle_request():141] handle_request: poll_exit
+2023-09-21 14:41:25,501 DEBUG   HandlerThread:6540 [handler.py:handle_request():141] handle_request: poll_exit
+2023-09-21 14:41:30,618 DEBUG   HandlerThread:6540 [handler.py:handle_request():141] handle_request: poll_exit
+2023-09-21 14:41:35,731 DEBUG   HandlerThread:6540 [handler.py:handle_request():141] handle_request: poll_exit
+2023-09-21 14:41:40,848 DEBUG   HandlerThread:6540 [handler.py:handle_request():141] handle_request: poll_exit
+2023-09-21 14:41:45,953 DEBUG   HandlerThread:6540 [handler.py:handle_request():141] handle_request: poll_exit
+2023-09-21 14:41:51,077 DEBUG   HandlerThread:6540 [handler.py:handle_request():141] handle_request: poll_exit
+2023-09-21 14:41:56,200 DEBUG   HandlerThread:6540 [handler.py:handle_request():141] handle_request: poll_exit

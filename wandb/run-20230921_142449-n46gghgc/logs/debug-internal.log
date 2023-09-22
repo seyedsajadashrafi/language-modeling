@@ -1,0 +1,100 @@
+2023-09-21 14:24:49,660 INFO    StreamThr :11724 [internal.py:wandb_internal():90] W&B internal server running at pid: 11724, started at: 2023-09-21 14:24:49.660798
+2023-09-21 14:24:49,660 DEBUG   HandlerThread:11724 [handler.py:handle_request():141] handle_request: status
+2023-09-21 14:24:49,676 DEBUG   SenderThread:11724 [sender.py:send_request():316] send_request: status
+2023-09-21 14:24:49,676 INFO    WriterThread:11724 [datastore.py:open_for_write():75] open: D:\Howsam\Deep Catalyst\project 1 language modeling\code\howsam\wandb\run-20230921_142449-n46gghgc\run-n46gghgc.wandb
+2023-09-21 14:24:49,676 DEBUG   SenderThread:11724 [sender.py:send():302] send: header
+2023-09-21 14:24:49,676 DEBUG   SenderThread:11724 [sender.py:send():302] send: run
+2023-09-21 14:24:50,082 ERROR   SenderThread:11724 [internal_api.py:execute():207] 403 response executing GraphQL.
+2023-09-21 14:24:50,082 ERROR   SenderThread:11724 [internal_api.py:execute():208] 
+<html><head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>403 Forbidden</title>
+</head>
+<body text=#000000 bgcolor=#ffffff>
+<h1>Error: Forbidden</h1>
+<h2>Your client does not have permission to get URL <code>/graphql</code> from this server.</h2>
+<h2></h2>
+</body></html>
+
+2023-09-21 14:24:50,691 INFO    HandlerThread:11724 [handler.py:finish():810] shutting down handler
+2023-09-21 14:24:50,691 INFO    WriterThread:11724 [datastore.py:close():279] close: D:\Howsam\Deep Catalyst\project 1 language modeling\code\howsam\wandb\run-20230921_142449-n46gghgc\run-n46gghgc.wandb
+2023-09-21 14:24:50,691 ERROR   StreamThr :11724 [internal.py:wandb_internal():165] Thread SenderThread:
+Traceback (most recent call last):
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\sdk\lib\retry.py", line 113, in __call__
+    result = self._call_fn(*args, **kwargs)
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\sdk\internal\internal_api.py", line 204, in execute
+    return self.client.execute(*args, **kwargs)  # type: ignore
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\vendor\gql-0.2.0\wandb_gql\client.py", line 52, in execute
+    result = self._get_result(document, *args, **kwargs)
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\vendor\gql-0.2.0\wandb_gql\client.py", line 60, in _get_result
+    return self.transport.execute(document, *args, **kwargs)
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\vendor\gql-0.2.0\wandb_gql\transport\requests.py", line 39, in execute
+    request.raise_for_status()
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\requests\models.py", line 960, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://api.wandb.ai/graphql
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\apis\normalize.py", line 25, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\sdk\internal\internal_api.py", line 422, in server_settings_introspection
+    res = self.gql(query)
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\sdk\lib\retry.py", line 129, in __call__
+    retry_timedelta_triggered = check_retry_fn(e)
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\util.py", line 889, in no_retry_auth
+    raise CommError("Permission denied, ask the project owner to grant you access")
+wandb.errors.CommError: Permission denied, ask the project owner to grant you access
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\apis\normalize.py", line 25, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\sdk\internal\internal_api.py", line 1408, in upsert_run
+    self.server_settings_introspection()
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\apis\normalize.py", line 61, in wrapper
+    raise CommError(message, err).with_traceback(sys.exc_info()[2])
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\apis\normalize.py", line 25, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\sdk\internal\internal_api.py", line 422, in server_settings_introspection
+    res = self.gql(query)
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\sdk\lib\retry.py", line 129, in __call__
+    retry_timedelta_triggered = check_retry_fn(e)
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\util.py", line 889, in no_retry_auth
+    raise CommError("Permission denied, ask the project owner to grant you access")
+wandb.errors.CommError: Permission denied, ask the project owner to grant you access
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\sdk\internal\internal_util.py", line 51, in run
+    self._run()
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\sdk\internal\internal_util.py", line 102, in _run
+    self._process(record)
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\sdk\internal\internal.py", line 310, in _process
+    self._sm.send(record)
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\sdk\internal\sender.py", line 304, in send
+    send_handler(record)
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\sdk\internal\sender.py", line 782, in send_run
+    self._init_run(run, config_value_dict)
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\sdk\internal\sender.py", line 808, in _init_run
+    server_run, inserted, server_messages = self._api.upsert_run(
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\apis\normalize.py", line 61, in wrapper
+    raise CommError(message, err).with_traceback(sys.exc_info()[2])
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\apis\normalize.py", line 25, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\sdk\internal\internal_api.py", line 1408, in upsert_run
+    self.server_settings_introspection()
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\apis\normalize.py", line 61, in wrapper
+    raise CommError(message, err).with_traceback(sys.exc_info()[2])
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\apis\normalize.py", line 25, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\sdk\internal\internal_api.py", line 422, in server_settings_introspection
+    res = self.gql(query)
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\sdk\lib\retry.py", line 129, in __call__
+    retry_timedelta_triggered = check_retry_fn(e)
+  File "C:\Users\PC\anaconda3\envs\howsam-deep\lib\site-packages\wandb\util.py", line 889, in no_retry_auth
+    raise CommError("Permission denied, ask the project owner to grant you access")
+wandb.errors.CommError: Permission denied, ask the project owner to grant you access
