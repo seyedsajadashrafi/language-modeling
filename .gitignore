@@ -18,3 +18,4 @@ weights/model-ppl_153.9.pt
 weights/model-ppl_168.pt
 weights/model.pt
 wiki.test.raw
+vocab.pt
