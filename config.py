@@ -34,8 +34,8 @@ num_epochs = 300
 
 scheduler = False
 
-load_pretrain_model = False
-model_name = 'model-ppl_151.9.pt'
+load_pretrain_model = True
+model_name = 'model.pt'
 
 clipping = True
 clip = 0.25

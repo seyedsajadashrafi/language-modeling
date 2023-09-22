@@ -73,8 +73,8 @@ def main():
     num_params = num_trainable_params(model)
     print(f'The model has {num_params:,} trainable parameters!')
 
-    optimizer = optim.SGD(model.parameters(), lr=lr, weight_decay=wd)#, momentum=0.9, nesterov=True)
-    # optimizer = optim.ASGD(model.parameters(), lr=lr, t0=0, lambd=0.)
+    # optimizer = optim.SGD(model.parameters(), lr=lr, weight_decay=wd)#, momentum=0.9, nesterov=True)
+    optimizer = optim.ASGD(model.parameters(), lr=lr, t0=0, lambd=0.)
     if scheduler:
         lr_scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.9)
 
