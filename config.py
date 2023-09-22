@@ -24,7 +24,7 @@ dropout_rate = 0.2
 
 tie_weights = False
 
-lr = 3
+lr = 0.5
 wd = 1.2e-6
 
 loss_train_hist, loss_valid_hist = [], []
@@ -35,7 +35,7 @@ num_epochs = 300
 scheduler = False
 
 load_pretrain_model = True
-model_name = 'model.pt'
+model_name = 'model-ppl_120.7.pt'
 
 clipping = True
 clip = 0.25
