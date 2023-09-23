@@ -69,8 +69,7 @@ def main():
     train_loader = DataLoader(train_set, batch_size=config.batch_size, shuffle=True)
     valid_loader = DataLoader(valid_set, batch_size=config.batch_size, shuffle=False)
 
-    model = LanguageModel(vocab_size, embedding_dim, hidden_dim, num_layers, 0.4, 0.25, 0.4, 0.1,
-                          pretrained=embedding_pretrained, tied=tie_weights).to(device)
+    model = LanguageModel(vocab_size, embedding_dim, hidden_dim, num_layers, dropout_rate).to(device)
 
     if load_pretrain_model:
         model = torch.load(model_name)
@@ -78,7 +77,7 @@ def main():
     num_params = num_trainable_params(model)
     print(f'The model has {num_params:,} trainable parameters!')
 
-    optimizer = optim.SGD(model.parameters(), lr=lr, weight_decay=wd)#, momentum=0.9, nesterov=True)
+    optimizer = optim.SGD(model.parameters(), lr=lr, weight_decay=wd, momentum=momentum, nesterov=nesterov)
     # optimizer = optim.ASGD(model.parameters(), lr=lr, t0=0, lambd=0.)
     if scheduler:
         lr_scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.9)

@@ -9,7 +9,6 @@ def train_one_epoch(model, train_loader, loss_fn, optimizer, metric, epoch=None)
     model.train()
     loss_train = AverageMeter()
     metric.reset()
-    hidden = model.init_hidden_states(config.batch_size, config.device)
 
     with tqdm.tqdm(train_loader, unit='batch') as tepoch:
         for inputs, targets in tepoch:
@@ -18,9 +17,8 @@ def train_one_epoch(model, train_loader, loss_fn, optimizer, metric, epoch=None)
 
             inputs = inputs.to(config.device)
             targets = targets.to(config.device)
-            hidden = model.repackage_hidden_states(hidden)
 
-            outputs = model(inputs, hidden)
+            outputs = model(inputs)
             # print(outputs.shape, targets.shape)
             loss = loss_fn(outputs.view(-1, outputs.shape[-1]),
                            targets.flatten())
@@ -44,15 +42,14 @@ def evaluate(model, test_loader, loss_fn, metric):
     model.eval()
     loss_eval = AverageMeter()
     metric.reset()
-    hidden = model.init_hidden_states(test_loader.batch_size, config.device)
+    # hidden = model.init_hidden_states(test_loader.batch_size, config.device)
 
     with torch.inference_mode():
         for inputs, targets in test_loader:
             inputs = inputs.to(config.device)
             targets = targets.to(config.device)
-            hidden = model.repackage_hidden_states(hidden)
 
-            outputs = model(inputs, hidden)
+            outputs = model(inputs)
 
             loss = loss_fn(outputs.view(-1, outputs.shape[-1]),
                            targets.flatten())

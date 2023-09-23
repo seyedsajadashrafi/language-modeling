@@ -6,10 +6,118 @@ from torch import nn
 import config
 
 
+# class LanguageModel(nn.Module):
+#
+#     def __init__(self, vocab_size, embedding_dim, hidden_dim, num_layers, dropout=0.5, dropouth=0.5, dropouti=0.5,
+#                  dropout_embd=0.1, pretrained=None, tied=False):  # , tie_weights):
+#
+#         super().__init__()
+#         self.num_layers = num_layers
+#         self.hidden_dim = hidden_dim
+#         self.embedding_dim = embedding_dim
+#
+#         self.embedding = nn.Embedding(vocab_size, embedding_dim)
+#         if pretrained:
+#             vocab = torch.load('vocab.pt')
+#             weights = pretrained.get_vecs_by_tokens(list(vocab.get_stoi().keys()))
+#             self.embedding = self.embedding.from_pretrained(weights)
+#
+#         # self.lstms = nn.LSTM(embedding_dim, hidden_dim, num_layers=num_layers, dropout=dropouth, batch_first=True)
+#         self.lstms = []
+#         self.lstms.append(nn.LSTM(embedding_dim, hidden_dim, num_layers=1, dropout=0, batch_first=True))
+#         self.lstms.append(nn.LSTM(hidden_dim, hidden_dim, num_layers=1, dropout=0, batch_first=True))
+#         self.lstms.append(nn.LSTM(hidden_dim, embedding_dim, num_layers=1, dropout=0, batch_first=True))
+#
+#         if config.weight_drop:
+#             self.lstms = [WeightDrop(lstm, ['weight_hh_l0'], dropout=config.weight_drop) for lstm in self.lstms]
+#         self.lstms = nn.ModuleList(self.lstms)
+#
+#         self.lockdrop = LockedDropout()
+#         self.dropoute = dropout_embd
+#         self.dropouti = dropouti
+#         self.dropouth = dropouth
+#         self.dropout = dropout
+#
+#         self.fc = nn.Linear(embedding_dim, vocab_size)
+#
+#         if tied:
+#             # assert embedding_dim == hidden_dim, 'cannot tie, check dims'
+#             # self.embedding.weight = self.fc.weight
+#             self.embedding.weight = self.fc.weight
+#             # self.fc.weight = nn.Parameter(self.embedding.weight.clone())
+#
+#         self.init_weights()
+#
+#     def init_weights(self):
+#         init_range_emb = 0.1
+#         self.embedding.weight.data.uniform_(-init_range_emb, init_range_emb)
+#         self.fc.weight.data.uniform_(-init_range_emb, init_range_emb)
+#         self.fc.bias.data.zero_()
+#         # init_range_other = 1 / math.sqrt(self.hidden_dim)
+#         # for i in range(self.num_layers):
+#         #     self.lstms.all_weights[i][0] = torch.FloatTensor(self.embedding_dim,
+#         #                                                     self.hidden_dim).uniform_(-init_range_other,
+#         #                                                                               init_range_other)
+#         #     self.lstms.all_weights[i][1] = torch.FloatTensor(self.hidden_dim,
+#         #                                                     self.hidden_dim).uniform_(-init_range_other,
+#         #                                                                               init_range_other)
+#
+#     def forward(self, src, hidden):
+#         # embedding = self.embedding(src)
+#         embedding = embedded_dropout(self.embedding, src, dropout=self.dropoute if self.training else 0)
+#         embedding = self.lockdrop(embedding, self.dropouti)
+#
+#         # output, hidden = self.lstms(embedding, hidden)
+#         new_hiddens = []
+#         for l, lstm in enumerate(self.lstms):
+#             embedding, new_hidden = lstm(embedding, hidden[l])
+#             new_hiddens.append(new_hidden)
+#             if l != self.num_layers - 1:
+#                 embedding = self.lockdrop(embedding, self.dropouth)
+#         hidden = new_hiddens
+#
+#         output = self.lockdrop(embedding, self.dropout)
+#         prediction = self.fc(output)
+#         # prediction = prediction.view(-1, prediction.shape[-1])
+#         return prediction  # , hidden
+#
+#     def init_hidden_states(self, batch_size, device):
+#         """
+#         Initialize the hidden states for the LSTM layers.
+#
+#         Args:
+#             batch_size (int): The size of the batch.
+#             device (str): The device (e.g., 'cuda' or 'cpu') to place the hidden states on.
+#
+#         Returns:
+#             tuple: A tuple containing the initial hidden states for the LSTM layers.
+#         """
+#         # Initialize hidden and cell states with zeros.
+#         hidden = []
+#         for lstm in self.lstms:
+#             hidden.append((torch.zeros(1, batch_size, lstm.module.hidden_size).to(device),
+#                            torch.zeros(1, batch_size, lstm.module.hidden_size).to(device)))
+#         return hidden
+#
+#     def repackage_hidden_states(self, hidden):
+#         """
+#         Detach and clone hidden states to prevent gradient propagation through time.
+#
+#         Args:
+#             hidden (tuple): A tuple of hidden states.
+#
+#         Returns:
+#             tuple: A tuple of detached and cloned hidden states.
+#         """
+#         if isinstance(hidden, torch.Tensor):
+#             return hidden.detach()
+#         else:
+#             return tuple(self.repackage_hidden_states(h) for h in hidden)
+
+
 class LanguageModel(nn.Module):
 
-    def __init__(self, vocab_size, embedding_dim, hidden_dim, num_layers, dropout=0.5, dropouth=0.5, dropouti=0.5,
-                 dropout_embd=0.1, pretrained=None, tied=False):  # , tie_weights):
+    def __init__(self, vocab_size, embedding_dim, hidden_dim, num_layers, dropout=0.5):
 
         super().__init__()
         self.num_layers = num_layers
@@ -17,68 +125,15 @@ class LanguageModel(nn.Module):
         self.embedding_dim = embedding_dim
 
         self.embedding = nn.Embedding(vocab_size, embedding_dim)
-        if pretrained:
-            vocab = torch.load('vocab.pt')
-            weights = pretrained.get_vecs_by_tokens(list(vocab.get_stoi().keys()))
-            self.embedding = self.embedding.from_pretrained(weights)
-
-        # self.lstms = nn.LSTM(embedding_dim, hidden_dim, num_layers=num_layers, dropout=dropouth, batch_first=True)
-        self.lstms = []
-        self.lstms.append(nn.LSTM(embedding_dim, hidden_dim, num_layers=1, dropout=0, batch_first=True))
-        self.lstms.append(nn.LSTM(hidden_dim, hidden_dim, num_layers=1, dropout=0, batch_first=True))
-        self.lstms.append(nn.LSTM(hidden_dim, embedding_dim, num_layers=1, dropout=0, batch_first=True))
-
-        if config.weight_drop:
-            self.lstms = [WeightDrop(lstm, ['weight_hh_l0'], dropout=config.weight_drop) for lstm in self.lstms]
-        self.lstms = nn.ModuleList(self.lstms)
-
-        self.lockdrop = LockedDropout()
-        self.dropoute = dropout_embd
-        self.dropouti = dropouti
-        self.dropouth = dropouth
-        self.dropout = dropout
-
+        nn.init.uniform_(self.embedding.weight, -0.1, 0.1)
+        self.lstm = nn.LSTM(embedding_dim, hidden_dim, num_layers=num_layers, dropout=dropout, batch_first=True)
+        self.dropout = nn.Dropout(p=dropout)
         self.fc = nn.Linear(embedding_dim, vocab_size)
 
-        if tied:
-            # assert embedding_dim == hidden_dim, 'cannot tie, check dims'
-            # self.embedding.weight = self.fc.weight
-            self.embedding.weight = self.fc.weight
-            # self.fc.weight = nn.Parameter(self.embedding.weight.clone())
-
-        self.init_weights()
-
-    def init_weights(self):
-        init_range_emb = 0.1
-        self.embedding.weight.data.uniform_(-init_range_emb, init_range_emb)
-        self.fc.weight.data.uniform_(-init_range_emb, init_range_emb)
-        self.fc.bias.data.zero_()
-        # init_range_other = 1 / math.sqrt(self.hidden_dim)
-        # for i in range(self.num_layers):
-        #     self.lstms.all_weights[i][0] = torch.FloatTensor(self.embedding_dim,
-        #                                                     self.hidden_dim).uniform_(-init_range_other,
-        #                                                                               init_range_other)
-        #     self.lstms.all_weights[i][1] = torch.FloatTensor(self.hidden_dim,
-        #                                                     self.hidden_dim).uniform_(-init_range_other,
-        #                                                                               init_range_other)
-
-    def forward(self, src, hidden):
-        # embedding = self.embedding(src)
-        embedding = embedded_dropout(self.embedding, src, dropout=self.dropoute if self.training else 0)
-        embedding = self.lockdrop(embedding, self.dropouti)
-
-        # output, hidden = self.lstms(embedding, hidden)
-        new_hiddens = []
-        for l, lstm in enumerate(self.lstms):
-            embedding, new_hidden = lstm(embedding, hidden[l])
-            new_hiddens.append(new_hidden)
-            if l != self.num_layers - 1:
-                embedding = self.lockdrop(embedding, self.dropouth)
-        hidden = new_hiddens
-
-        output = self.lockdrop(embedding, self.dropout)
+    def forward(self, src):
+        embedding = self.dropout(self.embedding(src))
+        output, hidden = self.lstm(embedding)
         prediction = self.fc(output)
-        # prediction = prediction.view(-1, prediction.shape[-1])
         return prediction  # , hidden
 
     def init_hidden_states(self, batch_size, device):
