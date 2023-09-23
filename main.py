@@ -59,7 +59,7 @@ def main():
     vocab_size = len(vocabulary)
 
     X_train, y_train = data_process(tokenizer, vocabulary, train_iter, config.batch_size, config.seq_len, int(config.seq_len/2))
-    X_valid, y_valid = data_process(tokenizer, vocabulary, valid_iter, config.batch_size * 2, config.seq_len, config.seq_len)
+    X_valid, y_valid = data_process(tokenizer, vocabulary, valid_iter, config.batch_size, config.seq_len, config.seq_len)
     # X_test, y_test = data_process(tokenizer, vocabulary, test_iter, config.batch_size * 2, config.seq_len)
 
     train_set = LanguageModelDataset(X_train, y_train)
@@ -67,7 +67,7 @@ def main():
     # test_set = LanguageModelDataset(X_test, y_test)
 
     train_loader = DataLoader(train_set, batch_size=config.batch_size, shuffle=True)
-    valid_loader = DataLoader(train_set, batch_size=config.batch_size*2, shuffle=False)
+    valid_loader = DataLoader(train_set, batch_size=config.batch_size, shuffle=False)
 
     model = LanguageModel(vocab_size, embedding_dim, hidden_dim, num_layers, 0.4, 0.25, 0.4, 0.1,
                           pretrained=embedding_pretrained, tied=tie_weights).to(device)
@@ -91,7 +91,7 @@ def main():
     for epoch in range(num_epochs):
 
         # Train
-        model, loss_train, metric_train = train_one_epoch(model, train_loader, loss_fn, optimizer, metric, epoch+1)
+        # model, loss_train, metric_train = train_one_epoch(model, train_loader, loss_fn, optimizer, metric, epoch+1)
 
         # Validation
         loss_valid, metric_valid = evaluate(model, valid_loader, loss_fn, metric)
