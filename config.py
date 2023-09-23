@@ -1,3 +1,5 @@
+from sys import platform
+
 import torch
 
 import wandb
@@ -42,7 +44,10 @@ clip = 0.25
 
 weight_drop = 0.5
 
-wandb_enable = True
+if platform == "linux" or platform == "linux2":
+    wandb_enable = True
+else:
+    wandb_enable = False
 if wandb_enable:
     wandb.login(key='6438a64a1b76437c5a6711319da484eaf4b53ec9')
 
