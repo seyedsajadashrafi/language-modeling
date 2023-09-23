@@ -44,7 +44,7 @@ def evaluate(model, test_loader, loss_fn, metric):
     model.eval()
     loss_eval = AverageMeter()
     metric.reset()
-    hidden = model.init_hidden_states(test_loader.targets.shape[1], config.device)
+    hidden = model.init_hidden_states(test_loader.batch_size, config.device)
 
     with torch.inference_mode():
         for inputs, targets in test_loader:

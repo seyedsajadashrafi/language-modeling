@@ -67,7 +67,7 @@ def main():
     # test_set = LanguageModelDataset(X_test, y_test)
 
     train_loader = DataLoader(train_set, batch_size=config.batch_size, shuffle=True)
-    valid_loader = DataLoader(train_set, batch_size=config.batch_size, shuffle=False)
+    valid_loader = DataLoader(train_set, batch_size=config.batch_size*2, shuffle=False)
 
     model = LanguageModel(vocab_size, embedding_dim, hidden_dim, num_layers, 0.4, 0.25, 0.4, 0.1,
                           pretrained=embedding_pretrained, tied=tie_weights).to(device)
