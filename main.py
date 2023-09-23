@@ -47,7 +47,7 @@ def main():
         vocabulary.set_default_index(vocabulary['unk'])
         embedding_pretrained = glove
     else:
-        vocabulary = build_vocab_from_iterator(map(tokenizer, train_iter), min_freq=3, specials=['<unk>'])
+        vocabulary = build_vocab_from_iterator(map(tokenizer, train_iter), min_freq=3, specials=['<unk>', ' <eos>'])
         vocabulary.set_default_index(vocabulary['<unk>'])
         torch.save(vocabulary, 'vocab.pt')
         # glove = GloVe(name='6B', dim=config.glove_dim)

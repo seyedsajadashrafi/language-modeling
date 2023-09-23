@@ -8,8 +8,8 @@ import config
 
 def data_process(tokenizer, vocab, raw_text_iter, batch_size, bptt):
     """Converts raw text into a flat Tensor."""
-    data = [torch.tensor(vocab(tokenizer(item)), dtype=torch.long) for item in raw_text_iter]
-    data = torch.cat(tuple(filter(lambda t: t.numel() > 0, data)))
+    data = [torch.tensor(vocab(tokenizer(item))+vocab(['<eos>']), dtype=torch.long) for item in raw_text_iter]
+    data = torch.cat(tuple(filter(lambda t: t.numel() > 1, data)))
     # trim
     seq_len = len(data) // batch_size
     inputs = data[:seq_len * batch_size]
