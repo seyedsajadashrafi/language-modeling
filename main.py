@@ -91,7 +91,7 @@ def main():
     for epoch in range(num_epochs):
 
         # Train
-        # model, loss_train, metric_train = train_one_epoch(model, train_loader, loss_fn, optimizer, metric, epoch+1)
+        model, loss_train, metric_train = train_one_epoch(model, train_loader, loss_fn, optimizer, metric, epoch+1)
 
         # Validation
         loss_valid, metric_valid = evaluate(model, valid_loader, loss_fn, metric)
