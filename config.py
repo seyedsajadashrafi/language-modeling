@@ -24,7 +24,7 @@ num_layers = 3
 
 dropout_rate = 0.2
 
-tie_weights = False
+tie_weights = True
 
 lr = 30
 wd = 1.2e-6
