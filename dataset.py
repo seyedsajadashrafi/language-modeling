@@ -18,8 +18,8 @@ def data_process(tokenizer, vocab, raw_text_iter, batch_size, bptt, step):
     inputs = inputs.view(batch_size, seq_len).t().contiguous()  # why t and conti...??
     targets = targets.view(batch_size, seq_len).t().contiguous()  # why t and conti...??
     # batchify the data & target
-    inputs = inputs.unfold(dimension=0, size=bptt, step=step)
-    targets = targets.unfold(dimension=0, size=bptt, step=step)
+    inputs = inputs.unfold(dimension=0, size=bptt, step=step).reshape(-1, bptt)
+    targets = targets.unfold(dimension=0, size=bptt, step=step).reshape(-1, bptt)
     return inputs, targets
 
 

@@ -66,6 +66,9 @@ def main():
     valid_set = LanguageModelDataset(X_valid, y_valid)
     # test_set = LanguageModelDataset(X_test, y_test)
 
+    train_loader = DataLoader(train_set, batch_size=config.batch_size, shuffle=True)
+    valid_loader = DataLoader(train_set, batch_size=config.batch_size, shuffle=False)
+
     model = LanguageModel(vocab_size, embedding_dim, hidden_dim, num_layers, 0.4, 0.25, 0.4, 0.1,
                           pretrained=embedding_pretrained, tied=tie_weights).to(device)
 
@@ -88,10 +91,10 @@ def main():
     for epoch in range(num_epochs):
 
         # Train
-        model, loss_train, metric_train = train_one_epoch(model, train_set, loss_fn, optimizer, metric, epoch+1)
+        model, loss_train, metric_train = train_one_epoch(model, train_loader, loss_fn, optimizer, metric, epoch+1)
 
         # Validation
-        loss_valid, metric_valid = evaluate(model, valid_set, loss_fn, metric)
+        loss_valid, metric_valid = evaluate(model, valid_loader, loss_fn, metric)
 
         loss_train_hist.append(loss_train)
         loss_valid_hist.append(loss_valid)
