@@ -19,6 +19,7 @@ from torch.nn.utils.rnn import pad_sequence
 import tqdm
 import torchmetrics as tm
 
+import config
 from utils import *
 from config import *
 from dataset import *
@@ -38,7 +39,7 @@ def main():
         torch.cuda.manual_seed(100)
 
     # Create a vocabulary
-    train_iter, valid_iter, test_iter = WikiText2()
+    train_iter, valid_iter, test_iter = WikiText2('./data/')
     tokenizer = get_tokenizer('basic_english')
 
     if config.pretrained:
@@ -57,8 +58,8 @@ def main():
 
     vocab_size = len(vocabulary)
 
-    X_train, y_train = data_process(tokenizer, vocabulary, train_iter, config.batch_size, config.seq_len)
-    X_valid, y_valid = data_process(tokenizer, vocabulary, valid_iter, config.batch_size * 2, config.seq_len)
+    X_train, y_train = data_process(tokenizer, vocabulary, train_iter, config.batch_size, config.seq_len, int(config.seq_len/2))
+    X_valid, y_valid = data_process(tokenizer, vocabulary, valid_iter, config.batch_size * 2, config.seq_len, config.seq_len)
     # X_test, y_test = data_process(tokenizer, vocabulary, test_iter, config.batch_size * 2, config.seq_len)
 
     train_set = LanguageModelDataset(X_train, y_train)

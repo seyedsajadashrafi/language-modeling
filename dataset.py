@@ -6,7 +6,7 @@ import torchtext
 import config
 
 
-def data_process(tokenizer, vocab, raw_text_iter, batch_size, bptt):
+def data_process(tokenizer, vocab, raw_text_iter, batch_size, bptt, step):
     """Converts raw text into a flat Tensor."""
     data = [torch.tensor(vocab(tokenizer(item))+vocab(['<eos>']), dtype=torch.long) for item in raw_text_iter]
     data = torch.cat(tuple(filter(lambda t: t.numel() > 1, data)))
@@ -18,8 +18,8 @@ def data_process(tokenizer, vocab, raw_text_iter, batch_size, bptt):
     inputs = inputs.view(batch_size, seq_len).t().contiguous()  # why t and conti...??
     targets = targets.view(batch_size, seq_len).t().contiguous()  # why t and conti...??
     # batchify the data & target
-    inputs = inputs.unfold(dimension=0, size=bptt, step=bptt)
-    targets = targets.unfold(dimension=0, size=bptt, step=bptt)
+    inputs = inputs.unfold(dimension=0, size=bptt, step=step)
+    targets = targets.unfold(dimension=0, size=bptt, step=step)
     return inputs, targets
 
 
